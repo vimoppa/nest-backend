@@ -1,5 +1,11 @@
 # NestJS Backend
 
+## Development
+
+```shell
+npm run start:local
+```
+
 ## Deployment
 
 For the github action pipeline, make sure the required secrets and initialized.
