@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiHeaders, ApiResponse } from '@nestjs/swagger';
 
 import { AuthGuard } from '../libs/middlewares/guards/auth.guard';
 import { PaymentService } from '../services/payment.service';
@@ -9,6 +9,10 @@ import { TransactionInput } from './payload/transaction.payload';
 
 @Controller('payment')
 @UseGuards(AuthGuard)
+@ApiHeaders([
+  { name: 'signature', required: true },
+  { name: 'timestamp', required: true },
+])
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 

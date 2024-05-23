@@ -1,11 +1,16 @@
 import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
+import * as httpContext from 'express-http-context';
+import { HttpContextConstant } from 'server/constants/http-context.constant';
 
 import { TimeInMsConstant } from '../../constants/time-in-ms.constant';
 import { UserRepository } from '../../db/repositories/user.repository';
 
+/**
+ * AuthenticationMidlleware is a middleware that checks the signature and timestamp headers.
+ */
 @Injectable()
-export class SignatureMidlleware implements NestMiddleware {
+export class AuthenticationMidlleware implements NestMiddleware {
   constructor(private readonly userRepository: UserRepository) {}
 
   async use(req: Request, _res: Response, next: NextFunction) {
@@ -25,7 +30,7 @@ export class SignatureMidlleware implements NestMiddleware {
 
     // httpContext.set(HttpContextConstant.haveSubscription, haveSubscription);
     // httpContext.set(HttpContextConstant.isNewUser, isNewUser);
-    // httpContext.set(HttpContextConstant.currentUserId, user.id);
+    httpContext.set(HttpContextConstant.currentUserId, '<id>');
     next();
   }
 }

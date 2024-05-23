@@ -9,7 +9,10 @@ export class UserEntity extends BaseEntity {
   id: number;
 
   @Column({ unique: true })
-  wallet: string;
+  username: string;
+
+  @Column({ unique: true })
+  email: string;
 
   @OneToMany(() => TransactionEntity, (transaction) => transaction.user)
   transactions: Promise<TransactionEntity[]>;

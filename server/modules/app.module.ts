@@ -7,11 +7,11 @@ import { AdminController } from '../controllers/admin.controller';
 import { HealthCheckController } from '../controllers/health-check.controller';
 import { ConfigurationService } from '../services/configuration.service';
 
+import { AuthenticationModule } from './authentication.module';
 import { ConfigurationModule } from './configuration.module';
 import { CronModule } from './cron.module';
 import { PaymentModule } from './payment.module';
 import { SeedModule } from './seed.module';
-import { SignatureModule } from './siganture.module';
 import { UsersModule } from './users.module';
 
 @Module({
@@ -36,6 +36,8 @@ import { UsersModule } from './users.module';
     // SeedModule is used to seed the database with initial data.
     SeedModule,
 
+    // AuthenticationModule is used to validate the signature of the request, veriication used in auth guard.
+    AuthenticationModule,
     // ConfigurationModule is used to load the configuration from the .env file.
     ConfigurationModule,
 
@@ -43,7 +45,6 @@ import { UsersModule } from './users.module';
     CronModule,
     UsersModule,
     PaymentModule,
-    SignatureModule,
   ],
   controllers: [HealthCheckController, AdminController],
 })

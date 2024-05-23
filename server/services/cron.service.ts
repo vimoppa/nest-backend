@@ -6,7 +6,10 @@ import { PaymentService } from './payment.service';
 
 @Injectable()
 export class CronService {
-  constructor(private readonly config: ConfigurationService, private readonly paymentService: PaymentService) {}
+  constructor(
+    private readonly config: ConfigurationService,
+    private readonly paymentService: PaymentService,
+  ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   everyDay() {
