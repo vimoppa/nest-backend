@@ -3,7 +3,7 @@
 ## Development
 
 ```shell
-npm run start:local
+pnpm run start:local
 ```
 
 ## Deployment

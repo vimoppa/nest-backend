@@ -7,6 +7,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
 import * as httpContext from 'express-http-context';
 
+import { AppConstant } from './constants/app.constant';
 import { HttpExceptionFilter } from './libs/middlewares/filters/http-exception.filter';
 import { ApiResponseInterceptor } from './libs/middlewares/interceptors/api-response.interceptor';
 import { AppModule } from './modules/app.module';
@@ -18,8 +19,8 @@ class Application {
   public static async main() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-    // await this.runMigration();
-    // await this.runSeeding(app);
+    // await this.migrate();
+    // await this.seeder(app);
     await this.docs(app);
 
     app.use(bodyParser.json());
@@ -33,21 +34,33 @@ class Application {
     // app.setGlobalPrefix('api');
     app.enableCors();
 
+    // const cronService = app.get(CronService);
+    // cronService.start();
+
     const config = app.get(ConfigurationService);
-    const server = await app.listen(config.port ?? 3000);
-    server.setTimeout(300_000); // 5 mins
+    const server = await app.listen(config.port ?? AppConstant.defaultPort);
+    server.setTimeout(AppConstant.serverTimeout);
   }
 
-  private static async runMigration(): Promise<void> {
+  /**
+   * migrate method is used to run the database migrations.
+   */
+  private static async migrate(): Promise<void> {
     return;
   }
 
-  private static async runSeeding(app: NestExpressApplication): Promise<void> {
+  /**
+   * seeder method is used to seed the database with initial data.
+   */
+  private static async seeder(app: NestExpressApplication): Promise<void> {
     // const config = app.get(ConfigurationService);
     const seedService = app.get(SeedService);
     seedService.run();
   }
 
+  /**
+   * docs method is used to generate the swagger documentation for the API.
+   */
   private static async docs(app: NestExpressApplication): Promise<void> {
     const config = app.get(ConfigurationService);
 
